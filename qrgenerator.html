@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="qrcodejs-master\qrcodejs-master\qrcode.min.js"></script>
+</head>
+
+<body>
+    <div class="container vertical-center">
+        <div class="item-container">
+            <input type="text" id="qrText" placeholder="Enter text or URL">
+            <button onclick="generateQRCode()">Generate QR Code</button>
+        </div>
+        <div class="item-container">
+            <div id="qrcode"></div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    'use strict';
+
+    function downloadQRCode() {
+        // Check if there's a generated QR code
+        const qrcodeCanvas = document.getElementById('qrcode').getElementsByTagName('canvas')[0];
+        if (qrcodeCanvas) {
+            const qrCodeImage = new Image();
+            qrCodeImage.src = qrcodeCanvas.toDataURL('image/png');
+
+            // Create a link element to download the QR code image
+            const downloadLink = document.createElement('a');
+            downloadLink.href = qrCodeImage.src;
+            downloadLink.download = 'qrcode.png';
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    }
+
+    function generateQRCode() {
+        const qrText = document.getElementById('qrText').value;
+        if (qrText) {
+            const qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: qrText,
+                width: 128,
+                height: 128
+            });
+        }
+    }
+</script>
+
+
+</html>
